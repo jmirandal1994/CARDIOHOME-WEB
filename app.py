@@ -13,7 +13,7 @@ from PyPDF2 import PdfReader, PdfWriter
 from PyPDF2.generic import NameObject, TextStringObject, DictionaryObject, BooleanObject
 from io import BytesIO
 from rellenar import rellenar_formulario_medicina_familiar, rellenar_formulario_neuro, aplanar_pdf
-
+from flask_login import login_required
 
 
 # --- Configuración inicial ---
