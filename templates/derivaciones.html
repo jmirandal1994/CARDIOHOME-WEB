@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Derivaciones por Colegio</h1>
+
+<div class="proyectos">
+  {% for proyecto in proyectos %}
+    <div class="proyecto">
+      <h2>{{ proyecto.nombre }}</h2>
+      <ul>
+        {% for colegio in proyecto.colegios %}
+          <li>
+            <details>
+              <summary>{{ colegio.nombre }}</summary>
+              <ul>
+                {% for pdf in colegio.pdfs %}
+                  <li>
+                    <a href="{{ url_for('static', filename=pdf.ruta) }}" target="_blank">{{ pdf.nombre }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+
+              <!-- Enlace al detalle del proyecto -->
+              <p>
+                <a href="{{ url_for('ver_proyecto_unico', nombre_proyecto=proyecto.nombre) }}">
+                  Ver detalle del proyecto
+                </a>
+              </p>
+
+              <!-- Selector de médico -->
+              <label for="derivar_{{ colegio.id }}">Derivar a:</label>
+              <select name="derivar_{{ colegio.id }}" class="derivar-select" data-colegio-id="{{ colegio.id }}">
+                <option value="">Seleccione un médico</option>
+                {% for medico in medicos %}
+                  <option value="{{ medico.id }}">{{ medico.nombre }}</option>
+                {% endfor %}
+              </select>
+              <button class="btn-derivar" data-colegio-id="{{ colegio.id }}">Confirmar derivación</button>
+            </details>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  document.querySelectorAll('.btn-derivar').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const colegioId = btn.dataset.colegioId;
+      const select = document.querySelector(`select[data-colegio-id='${colegioId}']`);
+      const medicoId = select.value;
+
+      if (!medicoId) {
+        alert('Seleccione un médico antes de derivar');
+        return;
+      }
+
+      fetch(`/derivar`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ colegio_id: colegioId, medico_id: medicoId })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message || 'Derivación realizada');
+      })
+      .catch(err => alert('Error en la derivación'));
+    });
+  });
+</script>
+{% endblock %}
+
+
+

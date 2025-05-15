@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Firmar PDF - CardioHome</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f5f5f5;
+            padding: 40px;
+        }
+        .container {
+            background: white;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="file"] {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0f5fc4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Firmar documentos PDF</h2>
+        <form action="{{ url_for('firmar_pdf') }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="pdfs" multiple accept=".pdf" required>
+            <br>
+            <button type="submit">Firmar Documentos</button>
+        </form>
+    </div>
+</body>
+</html>

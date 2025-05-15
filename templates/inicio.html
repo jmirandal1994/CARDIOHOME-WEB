@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">Bienvenido al Panel de Administración</h1>
+  <p>Desde aquí puedes gestionar proyectos, subir planillas, y asignar derivaciones.</p>
+
+  <div class="mt-5">
+    <h3>Accesos rápidos</h3>
+    <ul>
+      <li><a href="{{ url_for('proyectos') }}">📁 Ver Proyectos</a></li>
+      <li><a href="{{ url_for('subir_excel_formulario', nombre_proyecto='SANTIAGO', nombre_colegio='COLEGIO 1') }}">⬆️ Subir Planilla</a></li>
+      <li><a href="{{ url_for('derivaciones') }}">📨 Ver Derivaciones</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegios - {{ nombre_proyecto }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="admin-layout">
+    <aside class="sidebar">
+        <img src="{{ url_for('static', filename='img/cardiohome_logo.png') }}" alt="Logo CardioHome" class="logo-sidebar">
+        <h2>CardioHome</h2>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('admin_dashboard') }}">Inicio</a></li>
+                <li><a href="{{ url_for('admin_proyectos') }}">Proyectos</a></li>
+                <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>Colegios en {{ nombre_proyecto }}</h1>
+
+        <form method="POST">
+            <input type="text" name="nombre_colegio" placeholder="Nombre del Colegio" required style="width: 60%; padding: 10px; margin-right: 10px; border-radius: 8px; border: 1px solid #ccc;">
+            <button type="submit">Agregar Colegio</button>
+        </form>
+
+        <br><br>
+
+        {% if colegios %}
+            <h2>Lista de Colegios</h2>
+            <ul>
+                {% for colegio in colegios %}
+                    <li>
+                        {{ colegio }}
+                        - <a href="{{ url_for('subir_excel', nombre_proyecto=nombre_proyecto, nombre_colegio=colegio) }}" style="color: #1565c0; font-weight: bold;">📄 Subir Planilla</a>
+                    </li>
+                {% endfor %}
+            </ul>        
+        {% else %}
+            <p>No hay colegios agregados aún.</p>
+        {% endif %}
+
+        {% if estudiantes %}
+            <h2>Estudiantes en {{ nombre_colegio }}</h2>
+            <ul>
+                {% for estudiante in estudiantes %}
+                    <li>
+                        <a href="{{ url_for('ver_pdf_estudiante', nombre_proyecto=nombre_proyecto, nombre_colegio=nombre_colegio, nombre_estudiante=estudiante['nombre_completo']) }}">
+                            {{ estudiante['nombre_completo'] }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </main>
+</div>
+
+</body>
+</html>
+

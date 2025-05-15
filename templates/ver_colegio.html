@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularios - {{ nombre_colegio }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
+</head>
+<body>
+
+<div class="admin-layout">
+    <aside class="sidebar">
+        <img src="{{ url_for('static', filename='img/cardiohome_logo.png') }}" alt="Logo CardioHome" class="logo-sidebar">
+        <h2>CardioHome</h2>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('admin_dashboard') }}">Inicio</a></li>
+                <li><a href="{{ url_for('admin_proyectos') }}">Proyectos</a></li>
+                <li><a href="{{ url_for('admin_planillas') }}">Subir Planilla</a></li>
+                <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>Formularios - {{ nombre_colegio }}</h1>
+
+        <h2>Formularios Medicina Familiar</h2>
+        {% if formularios_medicina %}
+            <ul>
+            {% for formulario in formularios_medicina %}
+                <li>
+                    <strong>{{ formulario.nombre }}</strong> <br>
+                    Fecha: {{ formulario.fecha }} <br>
+                    Estado: {{ formulario.estado }}
+                    <a href="{{ url_for('descargar_pdf_individual', nombre_proyecto=nombre_proyecto, nombre_colegio=nombre_colegio, tipo_formulario='medicina_familiar', filename=formulario.nombre) }}" target="_blank">
+                        <button>Descargar</button>
+                    </a>
+                </li>
+                <br>
+            {% endfor %}
+            </ul>
+            <a href="{{ url_for('descargar_formularios', nombre_proyecto=nombre_proyecto, nombre_colegio=nombre_colegio, tipo_formulario='medicina_familiar') }}">
+                <button>Descargar Todos Medicina Familiar</button>
+            </a>
+        {% else %}
+            <p>No hay formularios Medicina Familiar generados aún.</p>
+        {% endif %}
+
+        <hr>
+
+        <h2>Formularios Neurología</h2>
+        {% if formularios_neurologia %}
+            <ul>
+            {% for formulario in formularios_neurologia %}
+                <li>
+                    <strong>{{ formulario.nombre }}</strong> <br>
+                    Fecha: {{ formulario.fecha }} <br>
+                    Estado: {{ formulario.estado }}
+                    <a href="{{ url_for('descargar_pdf_individual', nombre_proyecto=nombre_proyecto, nombre_colegio=nombre_colegio, tipo_formulario='neurologia', filename=formulario.nombre) }}" target="_blank">
+                        <button>Descargar</button>
+                    </a>
+                </li>
+                <br>
+            {% endfor %}
+            </ul>
+            <a href="{{ url_for('descargar_formularios', nombre_proyecto=nombre_proyecto, nombre_colegio=nombre_colegio, tipo_formulario='neurologia') }}">
+                <button>Descargar Todos Neurología</button>
+            </a>
+        {% else %}
+            <p>No hay formularios Neurología generados aún.</p>
+        {% endif %}
+
+        <hr>
+
+        <h2>Subir Planilla Medicina Familiar</h2>
+        <form action="{{ url_for('subir_excel_formulario', nombre_proyecto=nombre_proyecto, nombre_colegio=nombre_colegio) }}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="tipo_formulario" value="medicina_familiar">
+            <input type="file" name="file" accept=".xlsx" required>
+            <br><br>
+            <button type="submit">Subir Planilla Medicina Familiar</button>
+        </form>
+
+        <hr>
+
+        <h2>Subir Planilla Neurología</h2>
+        <form action="{{ url_for('subir_excel_formulario', nombre_proyecto=nombre_proyecto, nombre_colegio=nombre_colegio) }}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="tipo_formulario" value="neurologia">
+            <input type="file" name="file" accept=".xlsx" required>
+            <br><br>
+            <button type="submit">Subir Planilla Neurología</button>
+        </form>
+
+    </main>
+</div>
+
+</body>
+</html>
+
+
+
+

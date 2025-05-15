@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ nombre_proyecto }} - CardioHome</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
+</head>
+<body>
+
+<div class="admin-layout">
+    <aside class="sidebar">
+        <img src="{{ url_for('static', filename='img/cardiohome_logo.png') }}" alt="Logo CardioHome" class="logo-sidebar">
+        <h2>CardioHome</h2>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('admin_dashboard') }}">Inicio</a></li>
+                <li><a href="{{ url_for('admin_proyectos') }}">Proyectos</a></li>
+                <li><a href="{{ url_for('admin_planillas') }}">Subir Planilla</a></li>
+                <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>{{ nombre_proyecto }}</h1>
+
+        <form method="POST" action="{{ url_for('agregar_colegio', nombre_proyecto=nombre_proyecto) }}">
+            <input type="text" name="nombre_colegio" placeholder="Nombre del Colegio" required style="width: 60%; padding: 10px; margin-right: 10px; border-radius: 8px; border: 1px solid #ccc;">
+            <button type="submit">Agregar Colegio</button>
+        </form>
+
+        <br><br>
+
+        {% if colegios %}
+        <h2>Colegios Registrados</h2>
+        <ul>
+            {% for colegio in colegios %}
+                <li>
+                    <a href="{{ url_for('ver_colegio', nombre_proyecto=nombre_proyecto, nombre_colegio=colegio) }}">
+                        {{ colegio }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>No hay colegios registrados aún.</p>
+        {% endif %}
+    </main>
+</div>
+
+</body>
+</html>

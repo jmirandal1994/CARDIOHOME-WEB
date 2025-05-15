@@ -1,0 +1,33 @@
+{# templates/base.html #}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CardioHome{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='img/cardiohome_logo.png') }}" alt="CardioHome Logo">
+        </div>
+        <h2>CardioHome</h2>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('inicio') }}">Inicio</a></li>
+                <li><a href="{{ url_for('ver_proyecto') }}">Proyectos</a></li>
+                <li><a href="{{ url_for('subir_excel') }}">Subir Planilla</a></li>
+                <li><a href="{{ url_for('derivaciones') }}">Derivaciones por Colegio</a></li>
+                <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
+

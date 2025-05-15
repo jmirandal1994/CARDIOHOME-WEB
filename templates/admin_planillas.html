@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Planilla - CardioHome</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
+</head>
+<body>
+
+<div class="admin-layout">
+    <aside class="sidebar">
+        <img src="{{ url_for('static', filename='img/cardiohome_logo.png') }}" alt="Logo CardioHome" class="logo-sidebar">
+        <h2>CardioHome</h2>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('admin_dashboard') }}">Inicio</a></li>
+                <li><a href="{{ url_for('admin_proyectos') }}">Proyectos</a></li>
+                <!-- Ahora el enlace correcto para subir planillas -->
+                <li><a href="{{ url_for('subir_excel', nombre_proyecto=nombre_proyecto, nombre_colegio=nombre_colegio) }}">Subir Planilla</a></li>
+                <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </aside>
+    
+    <main class="content">
+        <h1>Subir Planilla de Estudiantes</h1>
+        <!-- El formulario ahora envía la solicitud POST a la ruta subir_excel -->
+        <form action="{{ url_for('subir_excel', nombre_proyecto=nombre_proyecto, nombre_colegio=nombre_colegio) }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".xlsx" required>
+            <br><br>
+            <button type="submit">Subir y Procesar</button>
+        </form>
+
+        {% if mensaje %}
+            <p style="margin-top: 20px; color: green;">{{ mensaje }}</p>
+        {% endif %}
+    </main>
+</div>
+
+</body>
+</html>
