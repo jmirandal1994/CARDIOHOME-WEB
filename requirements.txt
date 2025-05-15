@@ -2,3 +2,4 @@ flask
 PyMuPDF
 flask-login
 openpyxl
+pdfrw
