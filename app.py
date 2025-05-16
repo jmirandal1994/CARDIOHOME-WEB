@@ -5,6 +5,7 @@ import os
 import time
 import datetime
 import zipfile
+import fitz  # PyMuPDF
 from io import BytesIO
 from pdfrw import PdfReader as PdfReader_pdfrw, PdfWriter as PdfWriter_pdfrw, PdfDict, PdfName
 from PyPDF2 import PdfReader as PdfReader_pypdf2, PdfWriter as PdfWriter_pypdf2
