@@ -461,7 +461,6 @@ def descargar_formularios(nombre_proyecto, nombre_colegio, tipo_formulario):
     return send_file(memoria_zip, mimetype='application/zip', as_attachment=True, download_name=nombre_zip)
 
 @app.route('/firmar_pdf', methods=['GET', 'POST'])
-@login_required
 def firmar_pdf():
     if request.method == 'POST':
         files = request.files.getlist('pdfs')
