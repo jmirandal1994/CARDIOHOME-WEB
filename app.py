@@ -499,7 +499,7 @@ def firmar_pdf_con_firma(pdf_data):
     sig_height = 50
     for page in doc:
         x0 = 370
-        y0 = 750
+        y0 = 700
         sig_rect = fitz.Rect(x0, y0, x0 + sig_width, y0 + sig_height)
         page.insert_image(sig_rect, pixmap=signature, overlay=True)
     output = BytesIO()
