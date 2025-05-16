@@ -461,18 +461,30 @@ def descargar_formularios(nombre_proyecto, nombre_colegio, tipo_formulario):
     nombre_zip = f"{nombre_colegio.replace(' ', '_')}_{tipo_formulario}.zip"
     return send_file(memoria_zip, mimetype='application/zip', as_attachment=True, download_name=nombre_zip)
 
+from flask import Flask, render_template, request, send_file
+from flask_login import login_required
+import fitz  # PyMuPDF
+from io import BytesIO
+import zipfile
+import os
+
+app = Flask(__name__)
+
 @app.route('/firmar_pdf', methods=['GET', 'POST'])
+@login_required
 def firmar_pdf():
     if request.method == 'POST':
-        doctor = request.form.get('doctor', 'priscilla')  # Firma por defecto si no se envía nada
-        signature_path = f'static/firmas/{doctor}.png'
-
         files = request.files.getlist('pdfs')
+        doctora = request.form.get('doctora')
+
+        # Ruta dinámica según la doctora
+        firma_path = f'static/firmas/{doctora}.png'
         signed_pdfs = []
+
         for file in files:
             if file.filename.endswith('.pdf'):
                 pdf_bytes = file.read()
-                signed_pdf = firmar_pdf_con_firma(pdf_bytes, signature_path)
+                signed_pdf = firmar_pdf_con_firma(pdf_bytes, firma_path)
                 signed_pdfs.append((f"signed_{file.filename}", signed_pdf))
 
         if len(signed_pdfs) == 1:
@@ -488,17 +500,32 @@ def firmar_pdf():
 
     return render_template('firmar_pdf.html')
 
-
-def firmar_pdf_con_firma(pdf_data, signature_path):
+def firmar_pdf_con_firma(pdf_data, firma_path):
     doc = fitz.open(stream=pdf_data, filetype="pdf")
-    signature = fitz.Pixmap(signature_path)
-    sig_width = 110
-    sig_height = 50
+    signature = fitz.Pixmap(firma_path)
+
+    tamaños = {
+        "priscilla": (110, 50),
+        "adriana": (110, 60),
+        "yngrid": (140, 60)
+    }
+
+    nombre_firma = os.path.basename(firma_path).lower()
+    if "priscilla" in nombre_firma:
+        sig_width, sig_height = tamaños["priscilla"]
+    elif "adriana" in nombre_firma:
+        sig_width, sig_height = tamaños["adriana"]
+    elif "yngrid" in nombre_firma:
+        sig_width, sig_height = tamaños["yngrid"]
+    else:
+        sig_width, sig_height = (110, 50)  # default
+
     for page in doc:
         x0 = 370
-        y0 = 700
+        y0 = 690
         sig_rect = fitz.Rect(x0, y0, x0 + sig_width, y0 + sig_height)
         page.insert_image(sig_rect, pixmap=signature, overlay=True)
+
     output = BytesIO()
     doc.save(output)
     output.seek(0)
