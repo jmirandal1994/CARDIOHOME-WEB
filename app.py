@@ -471,7 +471,6 @@ import os
 app = Flask(__name__)
 
 @app.route('/firmar_pdf', methods=['GET', 'POST'])
-@login_required
 def firmar_pdf():
     if request.method == 'POST':
         files = request.files.getlist('pdfs')
