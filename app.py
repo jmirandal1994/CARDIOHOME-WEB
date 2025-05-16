@@ -335,10 +335,6 @@ def inicio():
 
 from flask import redirect, url_for
 
-@app.route('/')
-def home():
-    return redirect(url_for('inicio'))  # Asegúrate de que 'inicio' sea una ruta existente
-
 @app.route('/admin/proyectos/<nombre_proyecto>/<nombre_colegio>')
 def ver_colegio(nombre_proyecto, nombre_colegio):
     if 'usuario' not in session or session.get('tipo') != 'admin':
