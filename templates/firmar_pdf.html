@@ -1,50 +1,89 @@
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Firmar PDF - CardioHome</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            background-color: #f5f5f5;
-            padding: 40px;
-        }
-        .container {
-            background: white;
-            max-width: 600px;
-            margin: auto;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-        }
-        input[type="file"] {
-            margin: 20px 0;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #1a73e8;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0f5fc4;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Firmar documentos PDF</h2>
-        <form action="{{ url_for('firmar_pdf') }}" method="post" enctype="multipart/form-data">
-            <input type="file" name="pdfs" multiple accept=".pdf" required>
-            <br>
-            <button type="submit">Firmar Documentos</button>
-        </form>
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .firmar-container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 25px;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #34495e;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .btn-doctora {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: white;
+    cursor: pointer;
+  }
+
+  .btn-priscilla {
+    background: #3498db;
+  }
+
+  .btn-priscilla:hover {
+    background: #2980b9;
+  }
+
+  .btn-adriana {
+    background: #9b59b6;
+  }
+
+  .btn-adriana:hover {
+    background: #8e44ad;
+  }
+
+  .btn-yngrid {
+    background: #2ecc71;
+  }
+
+  .btn-yngrid:hover {
+    background: #27ae60;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="firmar-container">
+  <h2>Firmar documentos PDF</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="pdfs" class="form-label">Seleccionar archivo(s) PDF</label>
+      <input type="file" name="pdfs" id="pdfs" multiple class="form-control" required>
     </div>
-</body>
-</html>
+    <div class="btn-group">
+      <button type="submit" name="doctor" value="priscilla" class="btn-doctora btn-priscilla">Firmar con Dra. Priscilla</button>
+      <button type="submit" name="doctor" value="adriana" class="btn-doctora btn-adriana">Firmar con Dra. Adriana</button>
+      <button type="submit" name="doctor" value="yngrid" class="btn-doctora btn-yngrid">Firmar con Dra. Yngrid</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
