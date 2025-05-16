@@ -1,34 +1,78 @@
-{# templates/base.html #}
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}CardioHome{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}CardioHome{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #f5f9ff;
+      display: flex;
+    }
+    .sidebar {
+      width: 220px;
+      background-color: #083b91;
+      color: white;
+      padding: 20px 10px;
+      height: 100vh;
+    }
+    .sidebar .logo img {
+      max-width: 150px;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .sidebar nav ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar nav ul li {
+      margin: 15px 0;
+    }
+    .sidebar nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .sidebar nav ul li a:hover {
+      text-decoration: underline;
+    }
+    main {
+      flex-grow: 1;
+      padding: 40px;
+    }
+  </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">
-            <img src="{{ url_for('static', filename='img/cardiohome_logo.png') }}" alt="CardioHome Logo">
-        </div>
-        <h2>CardioHome</h2>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('inicio') }}">Inicio</a></li>
-                <li><a href="{{ url_for('ver_proyecto', nombre_proyecto='SANTIAGO') }}">Proyectos</a></li>
-                <li><a href="{{ url_for('subir_excel_formulario', nombre_proyecto='SANTIAGO', nombre_colegio='COLEGIO 1') }}">Subir Planilla</a></li>
-                <li><a href="{{ url_for('firmar_pdf') }}">Firmar PDF</a></li>
-                <li><a href="{{ url_for('derivaciones') }}">Derivaciones por Colegio</a></li>
-                <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
-            </ul>
-        </nav>
-    </div>
 
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='img/cardiohome_logo.png') }}" alt="CardioHome Logo">
+    </div>
+    <h2>CardioHome</h2>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('inicio') }}">Inicio</a></li>
+        <li><a href="{{ url_for('ver_proyecto', nombre_proyecto='SANTIAGO') }}">Proyectos</a></li>
+        <li><a href="{{ url_for('subir_excel_formulario', nombre_proyecto='SANTIAGO', nombre_colegio='COLEGIO 1') }}">Subir Planilla</a></li>
+        <li><a href="{{ url_for('firmar_pdf') }}">Firmar PDF</a></li>
+        <li><a href="{{ url_for('derivaciones') }}">Derivaciones por Colegio</a></li>
+        <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+
 </body>
 </html>
 
