@@ -463,12 +463,15 @@ def descargar_formularios(nombre_proyecto, nombre_colegio, tipo_formulario):
 @app.route('/firmar_pdf', methods=['GET', 'POST'])
 def firmar_pdf():
     if request.method == 'POST':
+        doctor = request.form.get('doctor', 'priscilla')  # Firma por defecto si no se envía nada
+        signature_path = f'static/firmas/{doctor}.png'
+
         files = request.files.getlist('pdfs')
         signed_pdfs = []
         for file in files:
             if file.filename.endswith('.pdf'):
                 pdf_bytes = file.read()
-                signed_pdf = firmar_pdf_con_firma(pdf_bytes)
+                signed_pdf = firmar_pdf_con_firma(pdf_bytes, signature_path)
                 signed_pdfs.append((f"signed_{file.filename}", signed_pdf))
 
         if len(signed_pdfs) == 1:
@@ -484,17 +487,10 @@ def firmar_pdf():
 
     return render_template('firmar_pdf.html')
 
-from flask import send_file, render_template, request
-import fitz
-from io import BytesIO
-import zipfile
-import os
-from flask_login import login_required
 
-
-def firmar_pdf_con_firma(pdf_data):
+def firmar_pdf_con_firma(pdf_data, signature_path):
     doc = fitz.open(stream=pdf_data, filetype="pdf")
-    signature = fitz.Pixmap("static/signature.png")
+    signature = fitz.Pixmap(signature_path)
     sig_width = 110
     sig_height = 50
     for page in doc:
