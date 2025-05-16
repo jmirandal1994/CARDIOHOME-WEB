@@ -15,7 +15,7 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('admin_dashboard') }}">Inicio</a></li>
-                <li><a href="{{ url_for('admin_proyectos') }}">Proyectos</a></li>
+                <li><a href="{{ url_for('ver_proyecto', nombre_proyecto='SANTIAGO') }}">Proyectos</a></li>
                 <!-- Ahora el enlace correcto para subir planillas -->
                 <li><a href="{{ url_for('subir_excel', nombre_proyecto=nombre_proyecto, nombre_colegio=nombre_colegio) }}">Subir Planilla</a></li>
                 <li><a href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
